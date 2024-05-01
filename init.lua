@@ -158,16 +158,16 @@ vim.opt.scrolloff = 10
 --  See `:help vim.keymap.set()`
 
 -- window management
-vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
-vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
-vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
-vim.keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+vim.keymap.set('n', '<leader>sv', '<C-w>v', { desc = 'Split window vertically' })                   -- split window vertically
+vim.keymap.set('n', '<leader>sh', '<C-w>s', { desc = 'Split window horizontally' })                 -- split window horizontally
+vim.keymap.set('n', '<leader>se', '<C-w>=', { desc = 'Make splits equal size' })                    -- make split windows equal width & height
+vim.keymap.set('n', '<leader>sx', '<cmd>close<CR>', { desc = 'Close current split' })               -- close current split window
 
-vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
-vim.keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" }) -- close current tab
-vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
-vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
-vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+vim.keymap.set('n', '<leader>to', '<cmd>tabnew<CR>', { desc = 'Open new tab' })                     -- open new tab
+vim.keymap.set('n', '<leader>tx', '<cmd>tabclose<CR>', { desc = 'Close current tab' })              -- close current tab
+vim.keymap.set('n', '<leader>tn', '<cmd>tabn<CR>', { desc = 'Go to next tab' })                     --  go to next tab
+vim.keymap.set('n', '<leader>tp', '<cmd>tabp<CR>', { desc = 'Go to previous tab' })                 --  go to previous tab
+vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<CR>', { desc = 'Open current buffer in new tab' }) --  move current buffer to new tab
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -235,6 +235,7 @@ vim.opt.rtp:prepend(lazypath)
 --  To update plugins you can run
 --    :Lazy update
 --
+--TODO: Move these plugins into imported lua files/folders
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
@@ -250,22 +251,23 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',
-    event = { "BufReadPre", "BufNewFile" },
+  {
+    'numToStr/Comment.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      'JoosepAlviste/nvim-ts-context-commentstring',
     },
     config = function()
       -- import comment plugin safely
-      local comment = require("Comment")
+      local comment = require 'Comment'
 
-      local ts_context_commentstring = require("ts_context_commentstring.integrations.comment_nvim")
+      local ts_context_commentstring = require 'ts_context_commentstring.integrations.comment_nvim'
 
       -- enable comment
-      comment.setup({
+      comment.setup {
         -- for commenting tsx and jsx files
         pre_hook = ts_context_commentstring.create_pre_hook(),
-      })
+      }
     end,
   },
 
@@ -302,7 +304,7 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
@@ -348,7 +350,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -567,6 +569,11 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        ruby_lsp = {},
+        standardrb = {},
+        stimulus_ls = {},
+        tailwindcss = {},
+
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -788,7 +795,7 @@ require('lazy').setup({
   },
 
   -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  { 'folke/todo-comments.nvim',      event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -858,39 +865,39 @@ require('lazy').setup({
     end,
   },
   {
-    "akinsho/bufferline.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    version = "*",
+    'akinsho/bufferline.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    version = '*',
     opts = {
       options = {
-        mode = "tabs",
-        separator_style = "slant",
+        mode = 'tabs',
+        separator_style = 'slant',
       },
     },
   },
   {
-    "bluz71/vim-nightfly-guicolors",
+    'bluz71/vim-nightfly-guicolors',
     priority = 1000,
     config = function()
-      vim.cmd([[colorscheme nightfly]])
+      vim.cmd [[colorscheme nightfly]]
     end,
   },
   {
-    "nvim-tree/nvim-tree.lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    'nvim-tree/nvim-tree.lua',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      local nvimtree = require("nvim-tree")
+      local nvimtree = require 'nvim-tree'
 
       -- recommended settings from nvim-tree documentation
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
 
       -- change color for arrows in tree to light blue
-      vim.cmd([[ highlight NvimTreeFolderArrowClosed guifg=#3FC5FF ]])
-      vim.cmd([[ highlight NvimTreeFolderArrowOpen guifg=#3FC5FF ]])
+      vim.cmd [[ highlight NvimTreeFolderArrowClosed guifg=#3FC5FF ]]
+      vim.cmd [[ highlight NvimTreeFolderArrowOpen guifg=#3FC5FF ]]
 
       -- configure nvim-tree
-      nvimtree.setup({
+      nvimtree.setup {
         view = {
           width = 35,
           relativenumber = true,
@@ -903,8 +910,8 @@ require('lazy').setup({
           icons = {
             glyphs = {
               folder = {
-                arrow_closed = "+", -- arrow when folder is closed
-                arrow_open = "-", -- arrow when folder is open
+                arrow_closed = '+', -- arrow when folder is closed
+                arrow_open = '-',   -- arrow when folder is open
               },
             },
           },
@@ -920,75 +927,75 @@ require('lazy').setup({
           },
         },
         filters = {
-          custom = { ".DS_Store" },
+          custom = { '.DS_Store' },
         },
         git = {
           ignore = false,
         },
-      })
+      }
 
       -- set keymaps
-      local keymap = vim.keymap -- for conciseness
+      local keymap = vim.keymap                                                                                           -- for conciseness
 
-      keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
-      keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
-      keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
-      keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+      keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle file explorer' })                         -- toggle file explorer
+      keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { desc = 'Toggle file explorer on current file' }) -- toggle file explorer on current file
+      keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { desc = 'Collapse file explorer' })                     -- collapse file explorer
+      keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { desc = 'Refresh file explorer' })                       -- refresh file explorer
     end,
   },
   {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      local lualine = require("lualine")
-      local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+      local lualine = require 'lualine'
+      local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
 
       local colors = {
-        blue = "#65D1FF",
-        green = "#3EFFDC",
-        violet = "#FF61EF",
-        yellow = "#FFDA7B",
-        red = "#FF4A4A",
-        fg = "#c3ccdc",
-        bg = "#112638",
-        inactive_bg = "#2c3043",
+        blue = '#65D1FF',
+        green = '#3EFFDC',
+        violet = '#FF61EF',
+        yellow = '#FFDA7B',
+        red = '#FF4A4A',
+        fg = '#c3ccdc',
+        bg = '#112638',
+        inactive_bg = '#2c3043',
       }
 
       local my_lualine_theme = {
         normal = {
-          a = { bg = colors.blue, fg = colors.bg, gui = "bold" },
+          a = { bg = colors.blue, fg = colors.bg, gui = 'bold' },
           b = { bg = colors.bg, fg = colors.fg },
           c = { bg = colors.bg, fg = colors.fg },
         },
         insert = {
-          a = { bg = colors.green, fg = colors.bg, gui = "bold" },
+          a = { bg = colors.green, fg = colors.bg, gui = 'bold' },
           b = { bg = colors.bg, fg = colors.fg },
           c = { bg = colors.bg, fg = colors.fg },
         },
         visual = {
-          a = { bg = colors.violet, fg = colors.bg, gui = "bold" },
+          a = { bg = colors.violet, fg = colors.bg, gui = 'bold' },
           b = { bg = colors.bg, fg = colors.fg },
           c = { bg = colors.bg, fg = colors.fg },
         },
         command = {
-          a = { bg = colors.yellow, fg = colors.bg, gui = "bold" },
+          a = { bg = colors.yellow, fg = colors.bg, gui = 'bold' },
           b = { bg = colors.bg, fg = colors.fg },
           c = { bg = colors.bg, fg = colors.fg },
         },
         replace = {
-          a = { bg = colors.red, fg = colors.bg, gui = "bold" },
+          a = { bg = colors.red, fg = colors.bg, gui = 'bold' },
           b = { bg = colors.bg, fg = colors.fg },
           c = { bg = colors.bg, fg = colors.fg },
         },
         inactive = {
-          a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = "bold" },
+          a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = 'bold' },
           b = { bg = colors.inactive_bg, fg = colors.semilightgray },
           c = { bg = colors.inactive_bg, fg = colors.semilightgray },
         },
       }
 
       -- configure lualine with modified theme
-      lualine.setup({
+      lualine.setup {
         options = {
           theme = my_lualine_theme,
         },
@@ -997,23 +1004,23 @@ require('lazy').setup({
             {
               lazy_status.updates,
               cond = lazy_status.has_updates,
-              color = { fg = "#ff9e64" },
+              color = { fg = '#ff9e64' },
             },
-            { "encoding" },
-            { "fileformat" },
-            { "filetype" },
+            { 'encoding' },
+            { 'fileformat' },
+            { 'filetype' },
           },
         },
-      })
+      }
     end,
   },
   {
-    "szw/vim-maximizer",
+    'szw/vim-maximizer',
     keys = {
-      { "<leader>sm", "<cmd>MaximizerToggle<CR>", desc = "Maximize/minimize a split" },
+      { '<leader>sm', '<cmd>MaximizerToggle<CR>', desc = 'Maximize/minimize a split' },
     },
   },
-  {"christoomey/vim-tmux-navigator"},
+  { 'christoomey/vim-tmux-navigator' },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -1036,7 +1043,7 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 }, {
   install = {
-    colorscheme = { "nightfly" },
+    colorscheme = { 'nightfly' },
   },
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
